@@ -51,7 +51,7 @@ const Navigation = () => {
         <nav className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
-            <img src={logo} alt="Lett-Us Eat Healthy" className="h-12 w-12" />
+            <img src={logo} alt="Lett-Us Eat Healthy" className="h-16 w-16" />
             <span className="font-display font-bold text-lg text-foreground hidden sm:inline">
               Lett-Us Eat Healthy
             </span>

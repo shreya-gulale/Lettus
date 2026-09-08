@@ -5,23 +5,23 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 const plans = [{
   name: "7-Meals Plan",
   duration: "14 days",
-  pricePerMeal: "₹170",
-  total: "₹1,190",
+  pricePerMeal: "₹180",
+  total: "₹1,260",
   perks: ["Daily variety", "Taste test before you commit"],
   popular: false
 }, {
-  name: "14-Meals Plan",
+  name: "15-Meals Plan",
   duration: "30 days",
-  pricePerMeal: "₹165",
-  total: "₹2,310",
-  perks: ["Build healthy habits effortlessly", "Priority custom menu", "Save ₹70"],
+  pricePerMeal: "₹170",
+  total: "₹2,550",
+  perks: ["Build healthy habits effortlessly", "Priority custom menu", "Save ₹150"],
   popular: true
 }, {
   name: "28-Meals Plan",
   duration: "60 days",
   pricePerMeal: "₹160",
   total: "₹4,480",
-  perks: ["Commit to a healthier, happier lifestyle", "Personalized nutrition support", "Save ₹280", "Best value"],
+  perks: ["Commit to a healthier, happier lifestyle", "Personalized nutrition support", "Save ₹560", "Best value"],
   popular: false
 }];
 const Subscription = () => {

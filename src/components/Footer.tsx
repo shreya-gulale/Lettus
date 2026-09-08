@@ -12,7 +12,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Logo and tagline */}
           <div className="space-y-4">
-            <img src={logo} alt="Lett-us Eat Healthy" className="h-20 w-auto" />
+            <img src={logo} alt="Lett-us Eat Healthy" className="h-32 w-auto" />
             <p className="text-sm opacity-90">Eat Fresh. Feel Great.</p>
           </div>
 

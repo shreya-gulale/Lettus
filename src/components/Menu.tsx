@@ -27,6 +27,8 @@ import trisproutsalad from "@/assets/trisprout.jpg";
 import pastasalad from "@/assets/pastasalad.jpg";
 import grilledPaneerSalad from "@/assets/grilled-paneer-salad.png";
 
+const sandwichPlaceholder = "/placeholder.svg";
+
 const menuItems = {
   salads: [
     {
@@ -200,6 +202,58 @@ const menuItems = {
       category: "Smoothies",
       image: ssmoothie
     }
+  ],
+  sandwiches: [
+    {
+      id: 10,
+      name: "Veggie Vibes",
+      description: "Loaded with fresh crisp veggies and signature sauces, grilled to perfection between whole wheat bread.",
+      calories: "320 kcal",
+      protein: "10g",
+      price: 180,
+      category: "Sandwiches",
+      image: sandwichPlaceholder
+    },
+    {
+      id: 11,
+      name: "Paneer Paradise",
+      description: "Grilled paneer with fresh veggies and signature sauces, layered between whole wheat bread.",
+      calories: "360 kcal",
+      protein: "16g",
+      price: 180,
+      category: "Sandwiches",
+      image: sandwichPlaceholder
+    },
+    {
+      id: 12,
+      name: "Creamy Corn",
+      description: "Sweet corn tossed in a creamy dressing with fresh veggies, layered between whole wheat bread.",
+      calories: "310 kcal",
+      protein: "9g",
+      price: 180,
+      category: "Sandwiches",
+      image: sandwichPlaceholder
+    },
+    {
+      id: 13,
+      name: "Mushroom Magic",
+      description: "Sauteed mushrooms with fresh veggies and signature sauces, grilled between whole wheat bread.",
+      calories: "300 kcal",
+      protein: "11g",
+      price: 180,
+      category: "Sandwiches",
+      image: sandwichPlaceholder
+    },
+    {
+      id: 14,
+      name: "Tofu Twist",
+      description: "Herbed tofu with fresh veggies and signature sauces, layered between whole wheat bread.",
+      calories: "330 kcal",
+      protein: "17g",
+      price: 180,
+      category: "Sandwiches",
+      image: sandwichPlaceholder
+    }
   ]
 };
 
@@ -239,24 +293,30 @@ const Menu = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-6xl mx-auto">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-12 h-auto p-1 bg-muted/50">
-            <TabsTrigger 
-              value="salads" 
-              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-3"
+          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 mb-12 h-auto p-1 bg-muted/50">
+            <TabsTrigger
+              value="salads"
+              className="font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-3"
             >
               Salads
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="wraps"
-              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-3"
+              className="font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-3"
             >
               Wraps
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="smoothies"
-              className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-3"
+              className="font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-3"
             >
               Smoothies
+            </TabsTrigger>
+            <TabsTrigger
+              value="sandwiches"
+              className="font-bold data-[state=active]:bg-primary data-[state=active]:text-primary-foreground py-3"
+            >
+              Sandwiches
             </TabsTrigger>
           </TabsList>
 

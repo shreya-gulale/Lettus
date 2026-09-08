@@ -5,6 +5,8 @@ import { useCart } from "@/contexts/CartContext";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Clock } from "lucide-react";
 import {
   Drawer,
   DrawerClose,
@@ -20,6 +22,20 @@ interface CartDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+const generateDeliverySlots = () => {
+  const slots: string[] = [];
+  for (let totalMinutes = 9 * 60; totalMinutes <= 21 * 60; totalMinutes += 30) {
+    const hour24 = Math.floor(totalMinutes / 60);
+    const minute = totalMinutes % 60;
+    const period = hour24 < 12 ? "AM" : "PM";
+    const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+    slots.push(`${hour12}:${minute.toString().padStart(2, "0")} ${period}`);
+  }
+  return slots;
+};
+
+const deliveryTimeSlots = generateDeliverySlots();
 
 const addOnOptions = [
   { id: "extra-protein", name: "Extra Protein", price: 50 },
@@ -206,12 +222,19 @@ const CartDrawer = ({ open, onOpenChange }: CartDrawerProps) => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="time">Preferred Delivery Time *</Label>
-                  <Input
-                    id="time"
-                    type="time"
-                    value={deliveryTime}
-                    onChange={(e) => setDeliveryTime(e.target.value)}
-                  />
+                  <Select value={deliveryTime} onValueChange={setDeliveryTime}>
+                    <SelectTrigger id="time">
+                      <Clock className="h-4 w-4 mr-2 text-muted-foreground" />
+                      <SelectValue placeholder="Select a delivery time" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {deliveryTimeSlots.map((slot) => (
+                        <SelectItem key={slot} value={slot}>
+                          {slot}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>
