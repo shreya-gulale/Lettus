@@ -16,8 +16,8 @@ const Hero = () => {
           alt="Fresh healthy salad bowl"
           className="w-full h-full object-cover"
         />
-        {/* Lighter overlay for text readability while keeping image visible */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/60 to-transparent pointer-events-none" />
+        {/* Left-to-right overlay: readable text on the left, image blends in smoothly toward the right */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-white/10 pointer-events-none" />
       </div>
       
       <div className="container mx-auto px-4 relative z-10 min-h-[600px] md:min-h-[700px] flex items-center">
