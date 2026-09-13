@@ -18,6 +18,8 @@ const Hero = () => {
         />
         {/* Left-to-right overlay: readable text on the left, image blends in smoothly toward the right */}
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-white/10 pointer-events-none" />
+        {/* Top-edge fade: softens the seam between the white header above and the hero image below */}
+        <div className="absolute top-0 inset-x-0 h-40 md:h-56 bg-gradient-to-b from-white via-white/50 to-transparent pointer-events-none" />
       </div>
       
       <div className="container mx-auto px-4 relative z-10 min-h-[600px] md:min-h-[700px] flex items-center">
