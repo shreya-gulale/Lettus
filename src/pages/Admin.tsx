@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Users, Package, Utensils, Shield, LogOut } from "lucide-react";
+import { Users, Package, Utensils, Shield, LogOut, ClipboardList } from "lucide-react";
 
 interface Profile {
   id: string;
@@ -42,6 +42,30 @@ interface UserWithProfile {
   full_name: string;
 }
 
+interface OrderItemRow {
+  id: string;
+  product_name: string;
+  quantity: number;
+  unit_price: number;
+  item_subtotal: number;
+}
+
+interface OrderRow {
+  id: string;
+  order_number: string;
+  order_type: "OUTLET" | "DELIVERY";
+  status: "NEW" | "PREPARING" | "READY" | "COMPLETED" | "CANCELLED";
+  customer_name: string;
+  customer_phone: string;
+  delivery_address: string | null;
+  delivery_time: string | null;
+  total_amount: number;
+  created_at: string;
+  order_items: OrderItemRow[];
+}
+
+const orderStatusOptions: OrderRow["status"][] = ["NEW", "PREPARING", "READY", "COMPLETED", "CANCELLED"];
+
 const Admin = () => {
   const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false);
@@ -52,6 +76,8 @@ const Admin = () => {
   const [userProfiles, setUserProfiles] = useState<Map<string, string>>(new Map());
   const [selectedUserId, setSelectedUserId] = useState("");
   const [selectedSubId, setSelectedSubId] = useState("");
+  const [orders, setOrders] = useState<OrderRow[]>([]);
+  const [orderTypeFilter, setOrderTypeFilter] = useState<"ALL" | "OUTLET" | "DELIVERY">("ALL");
 
   useEffect(() => {
     checkAdminAccess();
@@ -119,7 +145,35 @@ const Admin = () => {
       .order("meal_date", { ascending: false });
 
     setMeals(mealsData || []);
+
+    // Load orders (Outlet + WhatsApp/Delivery)
+    const { data: ordersData } = await supabase
+      .from("orders")
+      .select("*, order_items(*)")
+      .order("created_at", { ascending: false });
+
+    setOrders((ordersData as unknown as OrderRow[]) || []);
   };
+
+  const handleUpdateOrderStatus = async (orderId: string, status: OrderRow["status"]) => {
+    try {
+      const { error } = await supabase
+        .from("orders")
+        .update({ status })
+        .eq("id", orderId);
+
+      if (error) throw error;
+
+      toast.success("Order status updated");
+      loadAllData();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to update order status");
+    }
+  };
+
+  const filteredOrders = orders.filter(
+    (order) => orderTypeFilter === "ALL" || order.order_type === orderTypeFilter
+  );
 
   const handleCreateSubscription = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -221,11 +275,12 @@ const Admin = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="users">Users</TabsTrigger>
             <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
             <TabsTrigger value="meals">Meals</TabsTrigger>
+            <TabsTrigger value="orders">Orders</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
@@ -515,6 +570,101 @@ const Admin = () => {
                         <TableCell>{meal.meal_type || "N/A"}</TableCell>
                       </TableRow>
                     ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="orders" className="space-y-4">
+            <Card className="border-border/50 shadow-lg">
+              <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                  <CardTitle>All Orders</CardTitle>
+                  <CardDescription>Outlet and WhatsApp/Delivery orders</CardDescription>
+                </div>
+                <Select
+                  value={orderTypeFilter}
+                  onValueChange={(value) => setOrderTypeFilter(value as "ALL" | "OUTLET" | "DELIVERY")}
+                >
+                  <SelectTrigger className="w-full md:w-[200px]">
+                    <SelectValue placeholder="Filter by type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="ALL">All Orders</SelectItem>
+                    <SelectItem value="OUTLET">Outlet Orders</SelectItem>
+                    <SelectItem value="DELIVERY">Delivery Orders</SelectItem>
+                  </SelectContent>
+                </Select>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Order #</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Phone</TableHead>
+                      <TableHead>Items</TableHead>
+                      <TableHead>Total</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Created</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredOrders.map((order) => (
+                      <TableRow key={order.id}>
+                        <TableCell className="font-medium">#{order.order_number}</TableCell>
+                        <TableCell>
+                          <span
+                            className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                              order.order_type === "OUTLET"
+                                ? "bg-primary/10 text-primary"
+                                : "bg-accent/10 text-accent"
+                            }`}
+                          >
+                            {order.order_type === "OUTLET" ? "Outlet" : "Delivery"}
+                          </span>
+                        </TableCell>
+                        <TableCell>{order.customer_name}</TableCell>
+                        <TableCell>{order.customer_phone}</TableCell>
+                        <TableCell className="text-sm">
+                          {order.order_items
+                            ?.map((item) => `${item.product_name} x${item.quantity}`)
+                            .join(", ")}
+                        </TableCell>
+                        <TableCell className="font-medium">₹{order.total_amount}</TableCell>
+                        <TableCell>
+                          <Select
+                            value={order.status}
+                            onValueChange={(value) =>
+                              handleUpdateOrderStatus(order.id, value as OrderRow["status"])
+                            }
+                          >
+                            <SelectTrigger className="w-[130px] h-8">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {orderStatusOptions.map((status) => (
+                                <SelectItem key={status} value={status}>
+                                  {status}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {new Date(order.created_at).toLocaleString()}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {filteredOrders.length === 0 && (
+                      <TableRow>
+                        <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
+                          No orders yet
+                        </TableCell>
+                      </TableRow>
+                    )}
                   </TableBody>
                 </Table>
               </CardContent>

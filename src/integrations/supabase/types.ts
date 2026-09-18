@@ -82,6 +82,95 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          item_subtotal: number
+          order_id: string
+          product_id: number
+          product_name: string
+          quantity: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_subtotal: number
+          order_id: string
+          product_id: number
+          product_name: string
+          quantity: number
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_subtotal?: number
+          order_id?: string
+          product_id?: number
+          product_name?: string
+          quantity?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          addons_total: number
+          created_at: string
+          customer_name: string
+          customer_phone: string
+          delivery_address: string | null
+          delivery_instructions: string | null
+          delivery_time: string | null
+          id: string
+          order_number: string
+          order_type: Database["public"]["Enums"]["order_type"]
+          status: Database["public"]["Enums"]["order_status"]
+          subtotal: number
+          total_amount: number
+        }
+        Insert: {
+          addons_total?: number
+          created_at?: string
+          customer_name: string
+          customer_phone: string
+          delivery_address?: string | null
+          delivery_instructions?: string | null
+          delivery_time?: string | null
+          id?: string
+          order_number: string
+          order_type: Database["public"]["Enums"]["order_type"]
+          status?: Database["public"]["Enums"]["order_status"]
+          subtotal?: number
+          total_amount?: number
+        }
+        Update: {
+          addons_total?: number
+          created_at?: string
+          customer_name?: string
+          customer_phone?: string
+          delivery_address?: string | null
+          delivery_instructions?: string | null
+          delivery_time?: string | null
+          id?: string
+          order_number?: string
+          order_type?: Database["public"]["Enums"]["order_type"]
+          status?: Database["public"]["Enums"]["order_status"]
+          subtotal?: number
+          total_amount?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -168,6 +257,35 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_order: {
+        Args: {
+          p_addons_total: number
+          p_customer_name: string
+          p_customer_phone: string
+          p_delivery_address: string | null
+          p_delivery_instructions: string | null
+          p_delivery_time: string | null
+          p_items: Json
+          p_order_type: Database["public"]["Enums"]["order_type"]
+          p_subtotal: number
+          p_total: number
+        }
+        Returns: {
+          addons_total: number
+          created_at: string
+          customer_name: string
+          customer_phone: string
+          delivery_address: string | null
+          delivery_instructions: string | null
+          delivery_time: string | null
+          id: string
+          order_number: string
+          order_type: Database["public"]["Enums"]["order_type"]
+          status: Database["public"]["Enums"]["order_status"]
+          subtotal: number
+          total_amount: number
+        }
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -178,6 +296,8 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      order_status: "NEW" | "PREPARING" | "READY" | "COMPLETED" | "CANCELLED"
+      order_type: "OUTLET" | "DELIVERY"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -306,6 +426,8 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      order_status: ["NEW", "PREPARING", "READY", "COMPLETED", "CANCELLED"],
+      order_type: ["OUTLET", "DELIVERY"],
     },
   },
 } as const
