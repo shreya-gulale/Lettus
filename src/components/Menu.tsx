@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Info } from "lucide-react";
+import { ShoppingCart, Info, Trash2, Plus } from "lucide-react";
 import { useStaggerAnimation } from "@/hooks/useStaggerAnimation";
 import { useCart } from "@/contexts/CartContext";
 import {
@@ -28,6 +28,34 @@ import pastasalad from "@/assets/pastasalad.jpg";
 import grilledPaneerSalad from "@/assets/grilled-paneer-salad.png";
 
 const sandwichPlaceholder = "/placeholder.svg";
+
+interface QuantityControlProps {
+  quantity: number;
+  onDecrease: () => void;
+  onIncrease: () => void;
+}
+
+const QuantityControl = ({ quantity, onDecrease, onIncrease }: QuantityControlProps) => (
+  <div className="w-full flex items-center justify-between rounded-full border-2 border-primary bg-background px-5 py-2.5">
+    <button
+      type="button"
+      onClick={onDecrease}
+      aria-label="Remove one"
+      className="text-primary hover:text-primary/70 transition-colors"
+    >
+      <Trash2 className="h-4 w-4" />
+    </button>
+    <span className="font-bold text-foreground">{quantity}</span>
+    <button
+      type="button"
+      onClick={onIncrease}
+      aria-label="Add one more"
+      className="text-primary hover:text-primary/70 transition-colors"
+    >
+      <Plus className="h-4 w-4" />
+    </button>
+  </div>
+);
 
 const menuItems = {
   salads: [
@@ -65,7 +93,7 @@ const menuItems = {
       nutrition: "45g Carbs · 14g Fat · 10g Fiber"
     },
     {
-      id: 8,
+      id: 4,
       name: "Grilled Paneer Salad",
       description: "Mint–Cilantro Dressing. Barley / matta red rice base with grilled paneer, roasted cauliflower, sweet corn, olives & crisp fresh veggies. Finished with a super-seed crunch. ✨ Smoky, hearty, and refreshingly green.",
       calories: "480 kcal",
@@ -76,7 +104,7 @@ const menuItems = {
       nutrition: "48g Carbs · 18g Fat · 9g Fiber"
     },
     {
-      id: 9,
+      id: 5,
       name: "Mediterranean Quinoa Salad",
       description: "Classic Tahini Dressing. Quinoa with black beans, hummus, feta, olives & crisp fresh veggies. Finished with mixed herbs.✨ A classic Med bowl—nutty, creamy, and vibrant.",
       calories: "490 kcal",
@@ -87,7 +115,7 @@ const menuItems = {
       nutrition: "55g Carbs · 17g Fat · 10g Fiber"
     },
     {
-      id: 9,
+      id: 6,
       name: "Creamy Pasta Salad",
       description: "Light Caesar Dressing. Pasta with roasted garlic, olives, broccoli, zucchini, herbs, croutons & crisp fresh veggies.",
       calories: "510 kcal",
@@ -98,7 +126,7 @@ const menuItems = {
       nutrition: "65g Carbs · 18g Fat · 8g Fiber"
     },
     {
-      id: 9,
+      id: 7,
       name: "Tri-Sprout Salad",
       description: "Cilantro Hung curd dressing. Rajma, moong, moth & chana sprouts with crisp fresh veggies. Topped with toasted sesame, fets cheese, roasted peanuts & pomegranates.",
       calories: "420 kcal",
@@ -111,7 +139,7 @@ const menuItems = {
   ],
   wraps: [
     {
-      id: 4,
+      id: 8,
       name: "Grilled Paneer Wrap",
       description: "Grilled paneer + hummus + fresh greens + bell peppers in whole wheat tortilla",
       calories: "340 kcal",
@@ -121,7 +149,7 @@ const menuItems = {
       image: wrap
     },
     {
-      id: 4,
+      id: 9,
       name: "Soya Tikki Wrap",
       description: "Soya tikki + hummus + fresh greens + sauces + fresh veggies in whole wheat tortilla",
       calories: "340 kcal",
@@ -131,7 +159,7 @@ const menuItems = {
       image: wrap
     },
     {
-      id: 4,
+      id: 10,
       name: "Herbed Tofu Wrap",
       description: "Herbed tofu + hummus + fresh greens + sauces + fresh veggies in whole wheat tortilla",
       calories: "340 kcal",
@@ -141,7 +169,7 @@ const menuItems = {
       image: wrap
     },
     {
-      id: 4,
+      id: 11,
       name: "Mexican Fajita Beans Wrap",
       description: "Grilled vegetables + hummus + fresh greens + sauces + fresh veggies in whole wheat tortilla",
       calories: "340 kcal",
@@ -151,7 +179,7 @@ const menuItems = {
       image: wrap
     },
     {
-      id: 4,
+      id: 12,
       name: "Sprouts Tikki Wrap",
       description: "Pulse powered tikkis + hummus + fresh greens + sauces + fresh veggies wrapped in whole wheat tortilla",
       calories: "340 kcal",
@@ -161,7 +189,7 @@ const menuItems = {
       image: wrap
     },
     {
-      id: 5,
+      id: 13,
       name: "Falafel Delight Wrap",
       description: "Crispy falafel + hummus + fresh greens + sauces + fresh veggies wrapped in whole wheat tortilla ",
       calories: "380 kcal",
@@ -173,7 +201,7 @@ const menuItems = {
   ],
   smoothies: [
     {
-      id: 6,
+      id: 14,
       name: "Vanilla Oatmeal Smoothie",
       description: "A classic blend of milky vanilla goodness and banana, chia seeds, topped with loads of fruits and nuts",
       calories: "245 kcal",
@@ -183,7 +211,7 @@ const menuItems = {
       image: vsmoothie
     },
     {
-      id: 7,
+      id: 15,
       name: "Chocolate Oatmeal Smoothie",
       description: "Creamy oats meet rich cocoa, chia seeds and banana, topped with loads of fruits and nuts. Your guilt-free energy boost in a glass.",
       calories: "280 kcal",
@@ -193,7 +221,7 @@ const menuItems = {
       image: csmoothie
     },
     {
-      id: 7,
+      id: 16,
       name: "Strawberry Oatmeal Smoothie",
       description: "A refreshing blend of oats and juicy strawberries. Packed with fibre, and natural sweetness, topped with loads of fruits and nuts. Your guilt-free energy boost in a glass.",
       calories: "280 kcal",
@@ -205,7 +233,7 @@ const menuItems = {
   ],
   sandwiches: [
     {
-      id: 10,
+      id: 17,
       name: "Veggie Vibes",
       description: "Loaded with fresh crisp veggies and signature sauces, grilled to perfection between whole wheat bread.",
       calories: "320 kcal",
@@ -215,7 +243,7 @@ const menuItems = {
       image: sandwichPlaceholder
     },
     {
-      id: 11,
+      id: 18,
       name: "Paneer Paradise",
       description: "Grilled paneer with fresh veggies and signature sauces, layered between whole wheat bread.",
       calories: "360 kcal",
@@ -225,7 +253,7 @@ const menuItems = {
       image: sandwichPlaceholder
     },
     {
-      id: 12,
+      id: 19,
       name: "Creamy Corn",
       description: "Sweet corn tossed in a creamy dressing with fresh veggies, layered between whole wheat bread.",
       calories: "310 kcal",
@@ -235,7 +263,7 @@ const menuItems = {
       image: sandwichPlaceholder
     },
     {
-      id: 13,
+      id: 20,
       name: "Mushroom Magic",
       description: "Sauteed mushrooms with fresh veggies and signature sauces, grilled between whole wheat bread.",
       calories: "300 kcal",
@@ -245,7 +273,7 @@ const menuItems = {
       image: sandwichPlaceholder
     },
     {
-      id: 14,
+      id: 21,
       name: "Tofu Twist",
       description: "Herbed tofu with fresh veggies and signature sauces, layered between whole wheat bread.",
       calories: "330 kcal",
@@ -263,7 +291,7 @@ const Menu = () => {
     threshold: 0.2,
     staggerDelay: 120 
   });
-  const { addToCart } = useCart();
+  const { items: cartItems, addToCart, updateQuantity } = useCart();
 
   const handleAddToCart = (item: typeof menuItems.salads[0]) => {
     addToCart({
@@ -396,13 +424,27 @@ const Menu = () => {
                     </CardHeader>
                     
                     <CardFooter>
-                      <Button 
-                        onClick={() => handleAddToCart(item)}
-                        className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
-                      >
-                        <ShoppingCart className="mr-2 h-4 w-4" />
-                        Add to Cart
-                      </Button>
+                      {(() => {
+                        const cartItem = cartItems.find((cartEntry) => cartEntry.id === item.id);
+                        if (cartItem) {
+                          return (
+                            <QuantityControl
+                              quantity={cartItem.quantity}
+                              onDecrease={() => updateQuantity(item.id, cartItem.quantity - 1)}
+                              onIncrease={() => updateQuantity(item.id, cartItem.quantity + 1)}
+                            />
+                          );
+                        }
+                        return (
+                          <Button
+                            onClick={() => handleAddToCart(item)}
+                            className="w-full bg-accent hover:bg-accent/90 text-accent-foreground"
+                          >
+                            <ShoppingCart className="mr-2 h-4 w-4" />
+                            Add to Cart
+                          </Button>
+                        );
+                      })()}
                     </CardFooter>
                   </Card>
                 ))}
