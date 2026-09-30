@@ -3,17 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Info, Trash2, Plus } from "lucide-react";
+import { ShoppingCart, Trash2, Plus } from "lucide-react";
 import { useStaggerAnimation } from "@/hooks/useStaggerAnimation";
 import { useCart } from "@/contexts/CartContext";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import milletSalad from "@/assets/chickpea.jpg";
 import wrap from "@/assets/wrap.jpg";
 import vsmoothie from "@/assets/vanilla-smoothie.jpg";
@@ -62,84 +54,95 @@ const menuItems = {
     {
       id: 1,
       name: "Millet Chickpea Salad",
-      description: "Dahi–Paneer Cream Dressing. Millets with roasted chickpeas, sweet corn, olives & beetroot-hung curd, tossed with crisp fresh veggies. ",
-      calories: "460 kcal",
-      protein: "17g",
+      description: "Dahi–Paneer Cream Dressing. Millets with roasted chickpea, beetroot & hung curd, olives, tossed with crisp lettuce and mixed veggies.",
+      calories: "264 kcal",
+      protein: "13.1g",
+      fiber: "7.3g",
       price: 190,
       category: "Salads",
       image: milletSalad,
-      nutrition: "60g Carbs · 14g Fat · 12g Fiber"
     },
     {
       id: 2,
-      name: "Mexican Bowl",
-      description: "Tomato–Garlic Dressing. Cilantro-lime rice, black beans, corn, shredded cheese, guac & crisp fresh veggies. ✨ A fiesta of bold flavors and fresh crunch.",
-      calories: "353 kcal",
-      protein: "15g",
+      name: "Mexican Bhuddha Bowl",
+      description: "Tomato–Garlic Dressing. Cooked rice with cooked beans, guac, cherry tomatoes & grated cheese, tossed with crisp lettuce and mixed veggies.",
+      calories: "309 kcal",
+      protein: "12g",
+      fiber: "9.5g",
       price: 190,
       category: "Salads",
       image: mexicanSalad,
-      nutrition: "55g Carbs · 15g Fat · 11g Fiber"
     },
     {
       id: 3,
-      name: "Herbed Tofu Salad",
-      description: "Sesame Soy-Ginger Dressing. Matta red rice / barley base, marinated tofu with mushrooms, charred broccoli, salsa & crisp fresh veggies. A plant-based protein powerhouse. ✨ Delicately herbed, rich in flavor, 100% plant-based.",
-      calories: "400 kcal",
-      protein: "18g",
+      name: "Tofu Salad",
+      description: "Sesame Soy-Ginger Dressing. Matta rice with marinated tofu, hummus, mushroom, broccoli & tomato salsa, tossed with crisp lettuce and mixed veggies.",
+      calories: "277 kcal",
+      protein: "17.2g",
+      fiber: "6.2g",
       price: 190,
       category: "Salads",
       image: tofuSalad,
-      nutrition: "45g Carbs · 14g Fat · 10g Fiber"
     },
     {
       id: 4,
       name: "Grilled Paneer Salad",
-      description: "Mint–Cilantro Dressing. Barley / matta red rice base with grilled paneer, roasted cauliflower, sweet corn, olives & crisp fresh veggies. Finished with a super-seed crunch. ✨ Smoky, hearty, and refreshingly green.",
-      calories: "480 kcal",
-      protein: "21g",
+      description: "Mint–Cilantro Dressing. Matta rice with grilled paneer, hummus, roasted cauliflower & olives, tossed with crisp lettuce and mixed veggies. Finished with a super-seed crunch.",
+      calories: "423 kcal",
+      protein: "22g",
+      fiber: "7.2g",
       price: 190,
       category: "Salads",
       image: grilledPaneerSalad,
-      nutrition: "48g Carbs · 18g Fat · 9g Fiber"
     },
     {
       id: 5,
       name: "Mediterranean Quinoa Salad",
-      description: "Classic Tahini Dressing. Quinoa with black beans, hummus, feta, olives & crisp fresh veggies. Finished with mixed herbs.✨ A classic Med bowl—nutty, creamy, and vibrant.",
-      calories: "490 kcal",
-      protein: "19g",
+      description: "Classic Tahini Dressing. Boiled quinoa with black beans, red hummus, feta cheese & olives, tossed with crisp lettuce and mixed veggies.",
+      calories: "347 kcal",
+      protein: "16.9g",
+      fiber: "13.7g",
       price: 190,
       category: "Salads",
       image: quinoasalad,
-      nutrition: "55g Carbs · 17g Fat · 10g Fiber"
     },
     {
       id: 6,
-      name: "Creamy Pasta Salad",
-      description: "Light Caesar Dressing. Pasta with roasted garlic, olives, broccoli, zucchini, herbs, croutons & crisp fresh veggies.",
-      calories: "510 kcal",
-      protein: "16g",
+      name: "Soya Chunks Quinoa Salad",
+      description: "Quinoa with cooked soya chunks, hummus, mushroom & broccoli, tossed with crisp lettuce and mixed veggies. A protein-packed, plant-based bowl.",
+      calories: "296 kcal",
+      protein: "21.4g",
+      fiber: "10.9g",
       price: 190,
       category: "Salads",
-      image: pastasalad,
-      nutrition: "65g Carbs · 18g Fat · 8g Fiber"
+      image: heroSalad,
     },
     {
       id: 7,
-      name: "Tri-Sprout Salad",
-      description: "Cilantro Hung curd dressing. Rajma, moong, moth & chana sprouts with crisp fresh veggies. Topped with toasted sesame, fets cheese, roasted peanuts & pomegranates.",
-      calories: "420 kcal",
-      protein: "20g",
+      name: "Creamy Pasta Salad",
+      description: "Light Caesar Dressing. Pasta with zucchini, broccoli, mushroom & hung curd, tossed with crisp lettuce and mixed veggies.",
+      calories: "230 kcal",
+      protein: "14.5g",
+      fiber: "9.3g",
+      price: 190,
+      category: "Salads",
+      image: pastasalad,
+    },
+    {
+      id: 8,
+      name: "Tri-Sprout Harmony",
+      description: "Cilantro Hung Curd Dressing. Moong, matki & black chana sprouts with crisp lettuce and mixed veggies. Topped with superseeds, feta cheese, pomegranate, roasted crushed peanuts & cherry tomatoes.",
+      calories: "419 kcal",
+      protein: "22.6g",
+      fiber: "14.2g",
       price: 190,
       category: "Salads",
       image: trisproutsalad,
-      nutrition: "52g Carbs · 12g Fat · 13g Fiber"
     },
   ],
   wraps: [
     {
-      id: 8,
+      id: 9,
       name: "Grilled Paneer Wrap",
       description: "Grilled paneer + hummus + fresh greens + bell peppers in whole wheat tortilla",
       calories: "340 kcal",
@@ -149,7 +152,7 @@ const menuItems = {
       image: wrap
     },
     {
-      id: 9,
+      id: 10,
       name: "Soya Tikki Wrap",
       description: "Soya tikki + hummus + fresh greens + sauces + fresh veggies in whole wheat tortilla",
       calories: "340 kcal",
@@ -159,7 +162,7 @@ const menuItems = {
       image: wrap
     },
     {
-      id: 10,
+      id: 11,
       name: "Herbed Tofu Wrap",
       description: "Herbed tofu + hummus + fresh greens + sauces + fresh veggies in whole wheat tortilla",
       calories: "340 kcal",
@@ -169,7 +172,7 @@ const menuItems = {
       image: wrap
     },
     {
-      id: 11,
+      id: 12,
       name: "Mexican Fajita Beans Wrap",
       description: "Grilled vegetables + hummus + fresh greens + sauces + fresh veggies in whole wheat tortilla",
       calories: "340 kcal",
@@ -179,7 +182,7 @@ const menuItems = {
       image: wrap
     },
     {
-      id: 12,
+      id: 13,
       name: "Sprouts Tikki Wrap",
       description: "Pulse powered tikkis + hummus + fresh greens + sauces + fresh veggies wrapped in whole wheat tortilla",
       calories: "340 kcal",
@@ -189,7 +192,7 @@ const menuItems = {
       image: wrap
     },
     {
-      id: 13,
+      id: 14,
       name: "Falafel Delight Wrap",
       description: "Crispy falafel + hummus + fresh greens + sauces + fresh veggies wrapped in whole wheat tortilla ",
       calories: "380 kcal",
@@ -201,7 +204,7 @@ const menuItems = {
   ],
   smoothies: [
     {
-      id: 14,
+      id: 15,
       name: "Vanilla Oatmeal Smoothie",
       description: "A classic blend of milky vanilla goodness and banana, chia seeds, topped with loads of fruits and nuts",
       calories: "245 kcal",
@@ -211,7 +214,7 @@ const menuItems = {
       image: vsmoothie
     },
     {
-      id: 15,
+      id: 16,
       name: "Chocolate Oatmeal Smoothie",
       description: "Creamy oats meet rich cocoa, chia seeds and banana, topped with loads of fruits and nuts. Your guilt-free energy boost in a glass.",
       calories: "280 kcal",
@@ -221,7 +224,7 @@ const menuItems = {
       image: csmoothie
     },
     {
-      id: 16,
+      id: 17,
       name: "Strawberry Oatmeal Smoothie",
       description: "A refreshing blend of oats and juicy strawberries. Packed with fibre, and natural sweetness, topped with loads of fruits and nuts. Your guilt-free energy boost in a glass.",
       calories: "280 kcal",
@@ -233,7 +236,7 @@ const menuItems = {
   ],
   sandwiches: [
     {
-      id: 17,
+      id: 18,
       name: "Veggie Vibes",
       description: "Loaded with fresh crisp veggies and signature sauces, grilled to perfection between whole wheat bread.",
       calories: "320 kcal",
@@ -243,7 +246,7 @@ const menuItems = {
       image: sandwichPlaceholder
     },
     {
-      id: 18,
+      id: 19,
       name: "Paneer Paradise",
       description: "Grilled paneer with fresh veggies and signature sauces, layered between whole wheat bread.",
       calories: "360 kcal",
@@ -253,7 +256,7 @@ const menuItems = {
       image: sandwichPlaceholder
     },
     {
-      id: 19,
+      id: 20,
       name: "Creamy Corn",
       description: "Sweet corn tossed in a creamy dressing with fresh veggies, layered between whole wheat bread.",
       calories: "310 kcal",
@@ -263,7 +266,7 @@ const menuItems = {
       image: sandwichPlaceholder
     },
     {
-      id: 20,
+      id: 21,
       name: "Mushroom Magic",
       description: "Sauteed mushrooms with fresh veggies and signature sauces, grilled between whole wheat bread.",
       calories: "300 kcal",
@@ -273,7 +276,7 @@ const menuItems = {
       image: sandwichPlaceholder
     },
     {
-      id: 21,
+      id: 22,
       name: "Tofu Twist",
       description: "Herbed tofu with fresh veggies and signature sauces, layered between whole wheat bread.",
       calories: "330 kcal",
@@ -370,59 +373,19 @@ const Menu = () => {
                           ₹{item.price}
                         </Badge>
                       </div>
-                      <div className="absolute top-4 right-4 flex flex-col gap-2">
-                        <Badge className="bg-background/90 text-foreground backdrop-blur-sm">
-                          {item.calories}
-                        </Badge>
-                        <Badge className="bg-primary/90 text-primary-foreground backdrop-blur-sm">
-                          {item.protein} Protein
-                        </Badge>
-                      </div>
                     </div>
-                    
-                    <CardHeader>
-                      <CardTitle className="text-xl">{item.name}</CardTitle>
-                      <CardDescription className="text-base line-clamp-2">
+
+                    <CardHeader className="pb-3 bg-card">
+                      <CardTitle className="text-lg leading-tight">{item.name}</CardTitle>
+                      <p className="text-sm font-bold text-primary">
+                        {item.calories} &nbsp;|&nbsp; Protein {item.protein}
+                        {'fiber' in item ? ` · Fiber ${item.fiber}` : ''}
+                      </p>
+                      <CardDescription className="text-sm leading-snug">
                         {item.description}
                       </CardDescription>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant="link" className="p-0 h-auto text-primary">
-                            <Info className="h-3 w-3 mr-1" />
-                            Read more
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>{item.name}</DialogTitle>
-                            <DialogDescription className="text-base pt-2">
-                              {item.description}
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span className="font-medium">Calories:</span>
-                              <span>{item.calories}</span>
-                            </div>
-                            <div className="flex justify-between text-sm">
-                              <span className="font-medium">Protein:</span>
-                              <span>{item.protein}</span>
-                            </div>
-                            {'nutrition' in item && (
-                              <div className="flex justify-between text-sm">
-                                <span className="font-medium">Additional:</span>
-                                <span>{item.nutrition}</span>
-                              </div>
-                            )}
-                            <div className="flex justify-between text-sm pt-2 border-t">
-                              <span className="font-bold">Price:</span>
-                              <span className="font-bold text-primary">₹{item.price}</span>
-                            </div>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
                     </CardHeader>
-                    
+
                     <CardFooter>
                       {(() => {
                         const cartItem = cartItems.find((cartEntry) => cartEntry.id === item.id);
